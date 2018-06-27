@@ -1,5 +1,26 @@
 // Budget Controller
-const budgetController = (function() {})();
+const budgetController = (function() {
+  const Expense = function(id, description, value) {
+    this.id = id;
+    this.description = description;
+    this.value = value;
+  };
+  const Income = function(id, description, value) {
+    this.id = id;
+    this.description = description;
+    this.value = value;
+  };
+  const data = {
+    allItems: {
+      exp: [],
+      inc: [],
+    },
+    total: {
+      exp: 0,
+      inc: 0,
+    },
+  };
+})();
 
 // UI Controller
 const uiController = (function() {
@@ -13,7 +34,7 @@ const uiController = (function() {
     getInput: function() {
       return {
         type: document.querySelector(DOMSelectors.addType).value,
-        desc: document.querySelector(DOMSelectors.addDescription).value,
+        description: document.querySelector(DOMSelectors.addDescription).value,
         value: document.querySelector(DOMSelectors.addValue).value,
       };
     },
