@@ -53,6 +53,8 @@ const uiController = (function() {
     addDescription: '.add__description',
     addValue: '.add__value',
     addBtn: '.add__btn',
+    incomeList: '.income__list',
+    expensesList: '.expenses__list',
   };
   return {
     getInput: function() {
@@ -61,6 +63,42 @@ const uiController = (function() {
         description: document.querySelector(DOMSelectors.addDescription).value,
         value: document.querySelector(DOMSelectors.addValue).value,
       };
+    },
+    addListItem: function(item, type) {
+      let html, element;
+      // Create HTML string  with actual data
+      if (type === 'inc') {
+        element = DOMSelectors.incomeList;
+        html = `
+        <div class="item clearfix" id="income-${item.id}">
+          <div class="item__description">${item.description}</div>
+          <div class="right clearfix">
+            <div class="item__value">+ ${item.value}</div>
+            <div class="item__delete">
+                <button class="item__delete--btn">
+                    <i class="ion-ios-close-outline"></i>
+                </button>
+            </div>
+          </div>
+        </div>
+        `;
+      } else if (type === 'exp') {
+        element = DOMSelectors.expensesList;
+        html = `
+        <div class="item clearfix" id="expense-${item.id}">
+          <div class="item__description">${item.description}</div>
+          <div class="right clearfix">
+            <div class="item__value">- ${item.value}</div>
+            <div class="item__percentage">21%</div>
+            <div class="item__delete">
+                <button class="item__delete--btn"><i class="ion-ios-close-outline"></i></button>
+            </div>
+          </div>
+        </div>
+        `;
+      }
+      // Insert HTML into the DOM
+      document.querySelector(element).insertAdjacentHTML('beforeend', html);
     },
     getDOMSelectors: function() {
       return DOMSelectors;
@@ -91,6 +129,7 @@ const appController = (function(budgetCtrl, uiCtrl) {
     // Add item to the budgetCtrl
     newItem = budgetCtrl.addItem(input.type, input.description, input.value);
     // Add item to the UI
+    uiCtrl.addListItem(newItem, input.type);
     // Calculate budget
     // Display budget on the
   };
