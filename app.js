@@ -108,6 +108,7 @@ const budgetController = (function() {
 // UI Controller
 const uiController = (function() {
   const DOMSelectors = {
+    addContainer: '.add__container',
     addType: '.add__type',
     addDescription: '.add__description',
     addValue: '.add__value',
@@ -248,6 +249,19 @@ const uiController = (function() {
         DOMSelectors.dateLabel
       ).textContent = `${month} ${year}`;
     },
+    changedType: function(e) {
+      let elements;
+      const nodes = document.querySelectorAll(
+        `${DOMSelectors.addType},${DOMSelectors.addDescription}, ${
+          DOMSelectors.addValue
+        }`
+      );
+      elements = Array.from(nodes);
+      elements.forEach(function(item) {
+        item.classList.toggle('red-focus');
+      });
+      document.querySelector(DOMSelectors.addBtn).classList.toggle('red');
+    },
     getDOMSelectors: function() {
       return DOMSelectors;
     },
@@ -271,6 +285,9 @@ const appController = (function(budgetCtrl, uiCtrl) {
     document
       .querySelector(DOMSelectors.container)
       .addEventListener('click', ctrlDeleteItem);
+    document
+      .querySelector(DOMSelectors.addType)
+      .addEventListener('change', uiCtrl.changedType);
   };
 
   const updateBudget = function() {
